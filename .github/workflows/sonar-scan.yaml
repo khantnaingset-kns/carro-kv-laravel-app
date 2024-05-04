@@ -1,0 +1,25 @@
+name: "Sonar Cloud Code Scan"
+
+on:
+  workflow_call:
+    secrets:
+      gh_token:
+        required: true
+      sonar_token:
+        required: true
+
+jobs:
+  scan:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout the code to Runner
+        with:
+          fetch-depth: 0
+
+      - name: Sonar Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.gh_token }}
+          SONAR_TOKEN: ${{ secrets.sonar_token }}

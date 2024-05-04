@@ -1,0 +1,10 @@
+tag: v1.0.5
+
+commitCategories:
+  - title: "Breaking Changes"
+    contains:
+      - main
+
+releaseNoteGenerator:
+  showCommitter: true
+  useReleaseNoteBlock: true

@@ -1,0 +1,42 @@
+name: "Build Laravel App"
+
+on:
+  workflow_call:
+    inputs:
+      cache_key:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout the code to Runner
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+          coverage: none
+
+      - name: Composer Install
+        run: composer install
+
+      - name: Cache Vendor
+        id: cache-vendor
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ inputs.cache_key }}
+      
+      - name: Linting the PHP Code
+        run: |
+            ./vendor/bin/pint
+
+      - name: Build the App
+        run: |
+          cp .env.ci .env
+          php artisan key:generate
