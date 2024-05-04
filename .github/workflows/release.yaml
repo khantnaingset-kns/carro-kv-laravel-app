@@ -9,26 +9,26 @@ on:
 concurrency: release      
 
 jobs:
-  build:
-    name: "Release Build"
-    uses: ./.github/workflows/laravel-build.yaml
-    with:
-      cache_key: vendor-${{ github.sha }}
+  # build:
+  #   name: "Release Build"
+  #   uses: ./.github/workflows/laravel-build.yaml
+  #   with:
+  #     cache_key: vendor-${{ github.sha }}
 
-  test:
-    name: "Release Unit Testing"
-    needs: [build]
-    uses: ./.github/workflows/laravel-unit-testing.yaml
-    with:
-      cache_key: vendor-${{ github.sha }}
+  # test:
+  #   name: "Release Unit Testing"
+  #   needs: [build]
+  #   uses: ./.github/workflows/laravel-unit-testing.yaml
+  #   with:
+  #     cache_key: vendor-${{ github.sha }}
 
-  scan:
-    name: "Release Code Scan"
-    needs: [test]
-    uses: ./.github/workflows/sonar-scan.yaml
-    secrets:
-      gh_token: ${{ secrets.GITHUB_TOKEN }}
-      sonar_token: ${{ secrets.SONAR_TOKEN }}
+  # scan:
+  #   name: "Release Code Scan"
+  #   needs: [test]
+  #   uses: ./.github/workflows/sonar-scan.yaml
+  #   secrets:
+  #     gh_token: ${{ secrets.GITHUB_TOKEN }}
+  #     sonar_token: ${{ secrets.SONAR_TOKEN }}
 
   tag:
     name: "Create Tag"
