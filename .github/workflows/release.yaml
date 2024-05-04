@@ -8,9 +8,6 @@ on:
 
 concurrency: release
 
-env:
-
-
 jobs:
   # build:
   #   name: "Release Build"
