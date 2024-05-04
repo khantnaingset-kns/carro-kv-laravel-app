@@ -32,6 +32,7 @@ jobs:
 
   tag:
     name: "Create Tag"
+    permissions: write-all
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -40,9 +41,10 @@ jobs:
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
+
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
