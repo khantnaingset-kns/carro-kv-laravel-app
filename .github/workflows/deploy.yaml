@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Released version"
+        required: true
+        type: string
+      BRANCH:
+        description: "Branch to use"
+        required: true
+        default: "master"
+        type: choice
+        options:
+          - master
+          - develop
+
+jobs:
+  image-scan:
+    name: "Scan Images Security"
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Output env
+        run: |
+          echo ${{ inputs.version }}
