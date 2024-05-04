@@ -7,20 +7,41 @@ on:
         description: "Released version"
         required: true
         type: string
-      BRANCH:
-        description: "Branch to use"
+      branch:
+        description: "Branch to checkout"
         required: true
-        default: "master"
+        default: main
         type: choice
         options:
-          - master
+          - main
           - develop
+
+concurrency: deploy-${{ inputs.version }}
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
   image-scan:
     name: "Scan Images Security"
     runs-on: ubuntu-22.04
     steps:
-      - name: Output env
-        run: |
-          echo ${{ inputs.version }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Run Trivy vulnerability scanner on Laravel Image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "${{ steps.login-ecr.outputs.registry }}/${{ secrets.LARAVEL_IMAGE_REPO_NAME  }}:${{ inputs.version }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
