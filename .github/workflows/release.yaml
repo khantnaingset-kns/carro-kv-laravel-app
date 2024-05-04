@@ -35,7 +35,7 @@ jobs:
       sonar_token: ${{ secrets.SONAR_TOKEN }}
 
   release:
-    name: "Create Tag"
+    name: "Create Release"
     needs: [scan]
     permissions: write-all
     runs-on: ubuntu-22.04
@@ -80,5 +80,5 @@ jobs:
             REPOSITORY: ${{ secrets.NGINX_IMAGE_REPO_NAME }}
             IMAGE_TAG: ${{ steps.tag_version.outputs.new_tag }}
         run: |
-            docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG Dockerfile.nginx
+            docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./nginx
             docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
