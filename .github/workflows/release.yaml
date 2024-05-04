@@ -40,7 +40,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          region: $AWS_DEFAULT_REGION
 
 
   tag:
