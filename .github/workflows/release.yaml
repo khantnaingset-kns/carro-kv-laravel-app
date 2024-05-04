@@ -44,7 +44,6 @@ jobs:
 
   tag:
     name: "Create Tag"
-    needs: [scan]
     permissions: write-all
     runs-on: ubuntu-22.04
     steps:
