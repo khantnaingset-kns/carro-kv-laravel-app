@@ -6,32 +6,31 @@ on:
       - main
 
 jobs:
-  # build:
-  #   name: "Release Build"
-  #   uses: ./.github/workflows/laravel-build.yaml
-  #   with:
-  #     cache_key: vendor-${{ github.sha }}
+  build:
+    name: "Release Build"
+    uses: ./.github/workflows/laravel-build.yaml
+    with:
+      cache_key: vendor-${{ github.sha }}
 
-  # test:
-  #   name: "Release Unit Testing"
-  #   needs: [build]
-  #   uses: ./.github/workflows/laravel-unit-testing.yaml
-  #   with:
-  #     cache_key: vendor-${{ github.sha }}
+  test:
+    name: "Release Unit Testing"
+    needs: [build]
+    uses: ./.github/workflows/laravel-unit-testing.yaml
+    with:
+      cache_key: vendor-${{ github.sha }}
 
-  # scan:
-  #   name: "Release Code Scan"
-  #   needs: [test]
-  #   uses: ./.github/workflows/sonar-scan.yaml
-  #   secrets:
-  #     gh_token: ${{ secrets.GITHUB_TOKEN }}
-  #     sonar_token: ${{ secrets.SONAR_TOKEN }}
+  scan:
+    name: "Release Code Scan"
+    needs: [test]
+    uses: ./.github/workflows/sonar-scan.yaml
+    secrets:
+      gh_token: ${{ secrets.GITHUB_TOKEN }}
+      sonar_token: ${{ secrets.SONAR_TOKEN }}
 
   tag:
     name: "Create Tag"
     runs-on: ubuntu-22.04
     steps:
-
       - uses: actions/checkout@v4
         name: Checkout the code to Runner
 
@@ -39,4 +38,3 @@ jobs:
         uses: ButlerLogic/action-autotag@1.1.4
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          
