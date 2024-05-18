@@ -3,9 +3,10 @@ name: "Unit Testing Laravel App"
 on:
   workflow_call:
 
+
 jobs:
   test:
-    name: "Unit Testing"
+    name: "Unit Test"
     runs-on: ubuntu-22.04
 
     services:
