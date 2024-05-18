@@ -18,15 +18,13 @@ jobs:
   build:
     name: "Release Build"
     uses: ./.github/workflows/laravel-build.yaml
-    with:
-      cache_key: vendor-${{ github.sha }}
+
 
   test:
     name: "Release Unit Testing"
     needs: [build]
     uses: ./.github/workflows/laravel-unit-testing.yaml
-    with:
-      cache_key: vendor-${{ github.sha }}
+
 
   scan:
     name: "Release Code Scan"
