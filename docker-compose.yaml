@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www/
+    depends_on:
+      - app
+      - mysql
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./
+    volumes:
+      - ./:/var/www/
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:

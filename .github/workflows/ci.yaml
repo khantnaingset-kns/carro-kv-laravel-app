@@ -1,26 +1,27 @@
 name: CI
 
 on:
+  push:
+    branches:
+      - dev
   pull_request:
     branches:
       - dev
-    types: [ assigned, opened, synchronize, reopened ]
+    types: [assigned, opened, synchronize, reopened]
 
-concurrency: ci
+
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   build:
     name: "CI Build"
     uses: ./.github/workflows/laravel-build.yaml
-    with:
-      cache_key: vendor-${{ github.sha }}
 
   test:
     name: "CI Unit Testing"
     needs: [build]
     uses: ./.github/workflows/laravel-unit-testing.yaml
-    with:
-      cache_key: vendor-${{ github.sha }}
 
   scan:
     name: "CI Code Scan"

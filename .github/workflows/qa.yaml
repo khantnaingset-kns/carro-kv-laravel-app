@@ -1,0 +1,14 @@
+name: Quality Assurence Testing
+
+on: workflow_dispatch
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  loadTesting:
+    name: "QA Load Testing"
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout the code to Runner
