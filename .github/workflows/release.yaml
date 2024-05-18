@@ -52,6 +52,10 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-22.04
     steps:
+
+      - uses: actions/checkout@v4
+        name: Checkout the code to Runner
+        
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
