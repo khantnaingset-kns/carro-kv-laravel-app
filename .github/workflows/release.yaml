@@ -24,6 +24,28 @@ jobs:
       - uses: actions/checkout@v4
         name: Checkout the code to Runner
 
+      - name: Generate tarball from image for App
+        run: |
+          docker build -t app-laravel:scan-image .
+          docker save -o app-laravel-scan-image.tar app-laravel:scan-image
+
+      - name: Run Trivy vulnerability scanner in tarball mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: /github/workspace/app-laravel-scan-image.tar
+          severity: "CRITICAL,HIGH"
+
+      - name: Generate tarball from image for Web
+        run: |
+          docker build -t web-laravel:scan-image .
+          docker save -o web-laravel-scan-image.tar web-laravel:scan-image
+
+      - name: Run Trivy vulnerability scanner in tarball mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: /github/workspace/web-laravel-scan-image.tar
+          severity: "CRITICAL,HIGH"
+
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
