@@ -5,6 +5,7 @@ on:
 
 jobs:
   test:
+    name: "Unit Testing"
     runs-on: ubuntu-22.04
 
     services:

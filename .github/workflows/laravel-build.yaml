@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    name: "Build"
     runs-on: ubuntu-22.04
 
     steps:

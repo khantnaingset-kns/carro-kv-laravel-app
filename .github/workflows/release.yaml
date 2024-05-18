@@ -6,7 +6,7 @@ on:
     branches:
       - main
 
-concurrency: release
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
