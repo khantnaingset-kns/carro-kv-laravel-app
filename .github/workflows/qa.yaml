@@ -1,23 +1,14 @@
 name: Quality Assurence Testing
 
-on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "Released version"
-        required: true
-        type: string
-      branch:
-        description: "Branch to checkout"
-        required: true
-        default: main
-        type: choice
-        options:
-          - main
-          - develop
+on: workflow_dispatch
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   loadTesting:
+    name: "QA Load Testing"
     runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout the code to Runner
