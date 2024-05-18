@@ -16,7 +16,7 @@ on:
           - main
           - develop
 
-concurrency: deploy-${{ inputs.version }}
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

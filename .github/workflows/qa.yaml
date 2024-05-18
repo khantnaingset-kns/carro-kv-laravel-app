@@ -1,14 +1,9 @@
 name: Quality Assurence Testing
 
-on:
-  pull_request:
-    branches:
-      - dev
-    types: [ assigned, opened, synchronize, reopened ]
+on: workflow_dispatch
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   loadTesting:
     runs-on: ubuntu-22.04
-    
