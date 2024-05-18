@@ -10,6 +10,7 @@ on:
 
 jobs:
   scan:
+    name: "Code Scan"
     runs-on: ubuntu-22.04
 
     steps:

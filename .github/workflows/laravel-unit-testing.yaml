@@ -2,13 +2,11 @@ name: "Unit Testing Laravel App"
 
 on:
   workflow_call:
-    inputs:
-      cache_key:
-        required: true
-        type: string
+
 
 jobs:
   test:
+    name: "Unit Test"
     runs-on: ubuntu-22.04
 
     services:
@@ -38,7 +36,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor
-          key: ${{ inputs.cache_key }}
+          key: vendor-${{ hashFiles('**/composer.lock') }}
 
       - name: Install Dependencies
         if: steps.cache-vendor.outputs.cache-hit != 'true' # Skip if cache hit
