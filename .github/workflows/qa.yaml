@@ -1,6 +1,20 @@
 name: Quality Assurence Testing
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Released version"
+        required: true
+        type: string
+      branch:
+        description: "Branch to checkout"
+        required: true
+        default: main
+        type: choice
+        options:
+          - main
+          - develop
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
