@@ -1,14 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: "composer" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "weekly"
-    target-branch: 'dev'
-    open-pull-requests-limit: 10
-    commit-message:
-      prefix: "[dependabot] composer:"
-  
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/"  # Location of package manifests
     schedule:
