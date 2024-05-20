@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment-name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: laravel-kv-app
+  template:
+    metadata:
+      labels:
+        app: laravel-kv-app
+    spec:
+      volumes:
+        - name: views
+          emptyDir: {}
+      securityContext:
+        fsGroup: 82
+      initContainers:
+        - name: database-migrations
+          image: "{{ .Values.backend-image.repository }}:{{ .Values.backend-image.tag }}"
+          imagePullPolicy: {{ .Values.backend-image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secret.name }}
+          command:
+            - "php"
+          args:
+            - "artisan"
+            - "migrate"
+            - "--force"
+      containers:
+        - name: frontend-nginx-server
+          image: "{{ .Values.frontend-image.repository }}:{{ .Values.frontend-image.tag }}"
+          imagePullPolicy: {{ .Values.frontend-image.pullPolicy }}
+          ports:
+            - name: http-nginx
+              containerPort: {{ .Values.frontend-image.port }}
+          volumeMounts:
+            - name: views
+              mountPath: /var/www/
+        - name: backend-app-server
+          image: "{{ .Values.backend-image.repository }}:{{ .Values.backend-image.tag }}"
+          imagePullPolicy: {{ .Values.backend-image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secret.name }}
+          ports:
+            - name: http-app
+              containerPort: {{ .Values.backend-image.port }}
+              protocol: TCP
+          volumeMounts:
+            - name: views
+              mountPath: /var/www/

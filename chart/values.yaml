@@ -1,0 +1,35 @@
+
+replicaCount: 2
+
+autoscaling:
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+deployment-name: laravel-kv-app-deployment
+
+frontend-image:
+  repository: nginx
+  tag: alpine
+  pullPolicy: IfNotPresent
+  port: 80
+
+backend-image:
+  repository: ""
+  tag: ""
+  pullPolicy: IfNotPresent
+  port: 9000
+
+
+configMap:
+  name: application-config
+
+secret:
+  name: application-secret
+
+
+database:
+  host: ""
+  user: ""
+  password: ""
+  name: ""
