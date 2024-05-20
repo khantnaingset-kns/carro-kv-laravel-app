@@ -21,6 +21,7 @@ services:
       - ./:/var/www/
     depends_on:
       - mysql
+    hostname: http-app
     networks:
       - app-network
 
