@@ -21,7 +21,7 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         name: Checkout the code to Runner
 
       - name: Generate tarball from image for App
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         name: Checkout the code to Runner
 
       - name: Bump version and push tag

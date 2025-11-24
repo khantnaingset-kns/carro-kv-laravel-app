@@ -21,7 +21,7 @@ jobs:
           - 3306:3306
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         name: Checkout the code to Runner
 
       - name: Setup PHP
